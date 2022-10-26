@@ -118,5 +118,15 @@ namespace WinScpSFTP
                     session.CreateDirectory(targetDicPath);
             }
         }
+
+        public List<RemoteFileInfo> GetFiles(string remoteDicPath)
+        {
+            using (Session session = new Session())
+            {
+                session.Open(this._sessionOptions);
+                var dic = session.ListDirectory(remoteDicPath);
+                return dic.Files.AsEnumerable().Select(a => ((RemoteFileInfo)a)).ToList();
+            }
+        }
     }
 }
